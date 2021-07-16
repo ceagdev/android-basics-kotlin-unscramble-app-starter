@@ -32,11 +32,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
  */
 class GameFragment : Fragment() {
 
-//    private var score = 0
-//    private var currentWordCount = 0
-//    private var currentScrambledWord = "test"
-
-
     // Binding object instance with access to the views in the game_fragment.xml layout
     private lateinit var binding: GameFragmentBinding
 
@@ -54,6 +49,8 @@ class GameFragment : Fragment() {
         // Inflate the layout XML file and return a binding object instance
         binding = GameFragmentBinding.inflate(inflater, container, false)
         Log.d("GameFragment", "GameFragment created/re-created!")
+        Log.d("GameFragment", "Word: ${viewModel.currentScrambledWord} " +
+                "Score: ${viewModel.score} WordCount: ${viewModel.currentWordCount}")
         return binding.root
     }
 
@@ -93,27 +90,21 @@ class GameFragment : Fragment() {
      * Increases the word count.
      */
     private fun onSkipWord() {
-//        currentScrambledWord = getNextScrambledWord()
-//        currentWordCount++
-//        binding.wordCount.text = getString(R.string.word_count, currentWordCount, MAX_NO_OF_WORDS)
-//        setErrorTextField(false)
-//        updateNextWordOnScreen()
+        if (viewModel.nextWord()) {
+            setErrorTextField(false)
+            updateNextWordOnScreen()
+        } else {
+            showFinalScoreDialog()
+        }
     }
 
-    /*
-     * Gets a random word for the list of words and shuffles the letters in it.
-     */
-    private fun getNextScrambledWord(): String {
-        val tempWord = allWordsList.random().toCharArray()
-        tempWord.shuffle()
-        return String(tempWord)
-    }
 
     /*
      * Re-initializes the data in the ViewModel and updates the views with the new data, to
      * restart the game.
      */
     private fun restartGame() {
+        viewModel.reinitializeData()
         setErrorTextField(false)
         updateNextWordOnScreen()
     }
@@ -162,7 +153,6 @@ class GameFragment : Fragment() {
     /*
      * Override onDetach to add Log information on fragment life cycle
      */
-
     override fun onDetach() {
         super.onDetach()
         Log.d("GameFragment", "GameFragment destroyed!")
