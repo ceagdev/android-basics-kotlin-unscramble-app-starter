@@ -30,6 +30,12 @@ class GameViewModel : ViewModel() {
     private var wordsList: MutableList<String> = mutableListOf()
     private lateinit var currentWord: String
 
+    /*
+    * Read a new word from the word list and scramble it
+    * if the word is not in the list it added to the list and increase the counter
+    * if the word in on the list call it self to get a new word
+    */
+
     private fun getNextWord() {
         // Get a new word
         currentWord = allWordsList.random()
