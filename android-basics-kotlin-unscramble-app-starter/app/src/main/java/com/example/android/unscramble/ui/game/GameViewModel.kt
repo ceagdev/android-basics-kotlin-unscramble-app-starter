@@ -35,7 +35,6 @@ class GameViewModel : ViewModel() {
     * if the word is not in the list it added to the list and increase the counter
     * if the word in on the list call it self to get a new word
     */
-
     private fun getNextWord() {
         // Get a new word
         currentWord = allWordsList.random()
@@ -66,4 +65,23 @@ class GameViewModel : ViewModel() {
             true
         } else false
     }
+
+    /*
+    * Increase the score by the pre-define amount SCORE_INCREASE
+     */
+    private fun increaseScore() {
+        _score += SCORE_INCREASE
+    }
+
+    /*
+    * Validate is the word inputed by the use is correct
+    */
+    fun isUserWordCorrect(playerWord: String): Boolean {
+        if (playerWord.equals(currentWord, true)) {
+            increaseScore()
+            return true
+        }
+        return false
+    }
+
 }
