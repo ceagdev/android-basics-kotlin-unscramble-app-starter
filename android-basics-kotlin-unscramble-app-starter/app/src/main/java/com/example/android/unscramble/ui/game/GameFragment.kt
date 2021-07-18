@@ -58,28 +58,40 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Data Binding
+        binding.gameViewModel = viewModel
+
+        binding.maxNoOfWords = MAX_NO_OF_WORDS
+
+        // Specify the fragment view as the lifecycle owner of the binding.
+        // This is used so that the binding can observe LiveData updates
+        binding.lifecycleOwner = viewLifecycleOwner
+
         // Setup a click listener for the Submit and Skip buttons.
         binding.submit.setOnClickListener { onSubmitWord() }
         binding.skip.setOnClickListener { onSkipWord() }
 
+        /*
+        * Sustituido por data binding
+        */
         // Observe the scrambledCharArray LiveData, passing in the LifecycleOwner and the observer.
-        viewModel.currentScrambledWord.observe(viewLifecycleOwner,
-            { newWord ->
-                binding.textViewUnscrambledWord.text = newWord
-            })
+//        viewModel.currentScrambledWord.observe(viewLifecycleOwner,
+//            { newWord ->
+//                binding.textViewUnscrambledWord.text = newWord
+//            })
 
        // Observer the score LiveData passing in the vLifecycleOwner and the observer.
-        viewModel.score.observe(viewLifecycleOwner,
-            { newScore ->
-                binding.score.text = getString(R.string.score, newScore)
-            })
+//        viewModel.score.observe(viewLifecycleOwner,
+//            { newScore ->
+//                binding.score.text = getString(R.string.score, newScore)
+//            })
 
         // Observer the word counter LiveData passing in the vLifecycleOwner and the observer.
-        viewModel.currentWordCount.observe(viewLifecycleOwner,
-            { newWordCount ->
-                binding.wordCount.text =
-                    getString(R.string.word_count, newWordCount, MAX_NO_OF_WORDS)
-            })
+//        viewModel.currentWordCount.observe(viewLifecycleOwner,
+//            { newWordCount ->
+//                binding.wordCount.text =
+//                    getString(R.string.word_count, newWordCount, MAX_NO_OF_WORDS)
+//            })
     }
 
     /*
